@@ -10,3 +10,10 @@ jobs:
           node-version: "16"
       - run: npm install -g bats
       - run: bats -v
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.4.1
+        with:
+          # Set always-auth in npmrc.
+          always-auth: false
+          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+          node-version: 16.15.1
