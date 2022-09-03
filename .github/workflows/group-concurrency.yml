@@ -1,0 +1,13 @@
+name: whatever
+on: [push]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-concurrency:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          sleep 10 && echo "DONE"
