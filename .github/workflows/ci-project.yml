@@ -23,7 +23,7 @@ jobs:
         run: npm ci
       - name: Build the apps
         working-directory: ./project
-        run: nx build
+        run: npx nx build
       - name: Run the test
         working-directory: ./project
-        run: nx test
+        run: npx nx test
