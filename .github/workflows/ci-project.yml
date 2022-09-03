@@ -1,9 +1,15 @@
 name: CI
 
+# **What it does**: Build and test the project
+# **Why we have it**: For continuous integration
+# **Who does it impact**: The robusness of the project
+
 on:
   workflow_dispatch:
   push:
   pull_request:
+
+permissions: read-all
 
 concurrency:
   group: ${{ github.ref }}
@@ -11,7 +17,10 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
