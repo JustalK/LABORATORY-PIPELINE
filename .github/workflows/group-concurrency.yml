@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          sleep 10 && echo "DONE"
+          sleep 30 && echo "DONE"
