@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+      - name: Install CI
+        working-directory: ./project
+        run: npm ci
+      - name: Build the apps
+        working-directory: ./project
+        run: nx build
+      - name: Run the test
+        working-directory: ./project
+        run: nx test
