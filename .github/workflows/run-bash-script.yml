@@ -1,0 +1,10 @@
+name: run-bash-script
+on: [push]
+jobs:
+  example-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run build script
+        run: ./.github/scripts/hello.sh
+        shell: bash
+
