@@ -2,16 +2,12 @@ name: whatever
 on: [push]
 jobs:
   context-manipulation:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      if: ${{ github.ref == 'refs/heads/main' }}
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo "Deploying to master on branch $GITHUB_REF"
+      - run: echo "Deploying to master on branch $GITHUB_REF"
   context-manipulation-2:
+    if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      if: ${{ github.ref != 'refs/heads/main' }}
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo "Deploying not to master on branch $GITHUB_REF"
+      - run: echo "Deploying not to master on branch $GITHUB_REF"
