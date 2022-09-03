@@ -1,0 +1,38 @@
+name: CI
+
+# **What it does**: Build and test the project
+# **Why we have it**: For continuous integration
+# **Who does it impact**: The robusness of the project
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+permissions: read-all
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+      - name: Install CI
+        working-directory: ./project
+        run: npm ci
+      - name: Build the apps
+        working-directory: ./project
+        run: npx nx build
+      - name: Run the test
+        working-directory: ./project
+        run: npx nx test
