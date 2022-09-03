@@ -45,7 +45,7 @@ However for defining secret be environment, we can only define the secret from i
 
 I have created a **React** project using **NX**. I created an action testing the builds and tests on two different jobs using a matrix around the os. I have put a rule on concurrency for blocking multiple action to run if I keep pushing. I am using npx because you cannot access directly the command nx. I added the workflow_dispatch for manually running the pipeline when I want.
 
-```json
+```
 name: CI
 
 on:
