@@ -1,7 +1,7 @@
 name: Schedule every minute
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/1 * * * *"
 
 jobs:
   test-schedule:
