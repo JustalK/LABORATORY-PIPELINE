@@ -1,0 +1,38 @@
+name: "Test the dispatch"
+
+# **What it does**: Test the dispatch github
+# **Why we have it**: Because I want to learn
+# **Who does it impact**: Me
+
+on:
+  workflow_dispatch:
+    inputs:
+      testVariable:
+        description: "Variable Test"
+        required: true
+        default: "TEST"
+        type: choice
+        options:
+          - TEST
+          - KEVIN
+      environment:
+        description: "Environment to run tests against"
+        type: environment
+        required: true
+  push:
+    branches:
+      - feature/check-github-pipeline
+  pull_request:
+
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
