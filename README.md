@@ -4,6 +4,8 @@
 
 #### Experiences
 
+![./documentation/4.png](./documentation/4.png)
+
 I have created many actions on this repositories for testing how it exactly works. Those are the different things that has been tested:
 
 - Running a bash script
@@ -26,6 +28,18 @@ For starting an action by CURL:
 ```bash
 curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer <BEARER TOKEN>" "https://api.github.com/repos/justalk/LABORATORY-PIPELINE/actions/workflows/dispatch.yml/dispatches" -d '{"ref":"feature/check-github-pipeline","inputs":{"testVariable":"KEVIN", "environment":"stagging"}}'
 ```
+
+#### Defining secret
+
+Everything happen in the `Setting` tabs, in the `Secret` menu.
+
+![./documentation/3.png](./documentation/3.png)
+
+However for defining secret be environment, we can only define the secret from inside the environment.
+
+![./documentation/1.png](./documentation/1.png)
+
+![./documentation/2.png](./documentation/2.png)
 
 #### Continuous Integration
 
