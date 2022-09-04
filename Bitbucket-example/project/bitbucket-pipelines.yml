@@ -1,0 +1,156 @@
+image: atlassian/default-image:3
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: "Build"
+            script:
+              - echo "Your build"
+        - step:
+            name: "Test"
+            script:
+              - echo "Your test"
+  pull-requests:
+    "**":
+      - step:
+          script:
+            - echo "You made a PR"
+  custom:
+    myCustomPipeline:
+      - variables:
+          - name: myCustomVariable
+            default: "TEST"
+          - name: Country
+            default: "France"
+            allowed-values:
+              - "Philippines"
+              - "Thailand"
+              - "France"
+      - step:
+          script:
+            - echo "Manual trigger $myCustomVariable"
+  tags:
+    release-*:
+      - step:
+          script:
+            - echo "A tag triggered build"
+  branches:
+    master:
+      - step:
+          name: "Install the dependencies"
+          caches:
+            - frontendnode
+          script:
+            - cd project
+            - npm ci
+            - npx nx build
+          artifacts:
+            - project/dist/**
+          after-script:
+            - echo "Installation and build of the project done"
+      - parallel:
+          - step:
+              name: "Test the linting"
+              caches:
+                - frontendnode
+              script:
+                - cd project
+                - npx nx lint
+              after-script:
+                - echo "Linting OK"
+          - step:
+              name: "Test the application"
+              caches:
+                - frontendnode
+              script:
+                - cd project
+                - npx nx test
+              after-script:
+                - echo "Test OK"
+      - step:
+          name: "Deployement"
+          trigger: manual
+          script:
+            - echo "Step to do for deploying SCP"
+          after-script:
+            - echo "Deployement OK"
+    feature/manual:
+      - step:
+          name: "1"
+          script:
+            - echo "1"
+      - step:
+          name: "2"
+          script:
+            - echo "2"
+      - step:
+          name: "3"
+          trigger: manual
+          script:
+            - echo "3"
+    feature/parallel:
+      - parallel:
+          - step:
+              name: "JOB1"
+              script:
+                - echo "Parallel 1"
+          - step:
+              name: "JOB2"
+              script:
+                - echo "Parallel 2"
+      - step:
+          name: "JOB3"
+          script:
+            - echo "Synch 3"
+    feature/cache:
+      - step:
+          name: "Caches"
+          caches:
+            - frontendnode
+          script:
+            - cd project
+            - npm ci
+            - docker image inspect $(docker image ls -aq) --format {{.Size}} | awk '{totalSizeInBytes += $0} END {print totalSizeInBytes}'
+            - npx nx test
+            - echo "DONE 2"
+    feature/artifacts:
+      - step:
+          name: "Build"
+          caches:
+            - frontendnode
+          script:
+            - cd project
+            - npm ci
+            - npx nx build
+            - echo "DONE Building"
+          artifacts:
+            - project/dist/**
+      - step:
+          name: "Test"
+          caches:
+            - frontendnode
+          script:
+            - npm install --unsafe-perm
+            - npx nx test
+            - echo "DONE Test"
+    Staging:
+      - step:
+          script:
+            - echo "Variables $mySecretVariableStaging | $secretVariable | $secretVariableSecured"
+      - step:
+          deployment: Staging
+          script:
+            - echo "Variables $mySecretVariableStaging | $secretVariable | $secretVariableSecured"
+    main:
+      - step:
+          script:
+            - echo "This script runs only on commit to the main branch."
+    hotfix/*:
+      - step:
+          script:
+            - echo "This script runs only on commit to the hotfix branch."
+
+definitions:
+  caches:
+    frontendnode: project/node_modules
