@@ -95,9 +95,10 @@ I went through the entire documentation for testing the possibilities compared t
 - how to use artifacts
 - How to use the caches
 - How to create step in parallel
-- run a script after completion
+- Run a script after completion
 - Manual trigger step and creating manual pipeline
 - Naming of PR, default and branches of pipeline
+- How to use secret
 
 #### Skipping the CI when push
 
@@ -121,6 +122,15 @@ If you go in the pipeline, a button `run` will be available and ready to be pres
 
 ![./documentation/14.png](./documentation/14.png)
 
+#### Secrets
+
+For defining secrets, go inside the `Repository Settings` which is at the bottom of the repository you are working on. At the bottom, in the section `pipeline`, there are two menu: `Repository Variables` and `Deployement`.
+
+The repository variables will be accessible through all the pipeline while the one from deployement will only be available if the `deployement` field in the pipeline match the one define in the web.
+
+![./documentation/9.png](./documentation/9.png)
+
+![./documentation/10.png](./documentation/10.png)
 
 #### Caching
 
@@ -197,6 +207,8 @@ A simple CI would be as followed. In the first step, I will install the dependen
 ```
 
 #### Continuous Deployement
+
+If we want to deploy the website at the end of the pipeline, we need to use the following step. You also certainly need to define multiple secret depending of the environment you want to deploy on.
 
 ```
 - step:
