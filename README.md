@@ -221,7 +221,7 @@ If we want to deploy the website at the end of the pipeline, we need to use the 
             SSH_USER: $SERVER_USER
             SERVER: $SERVER_IP
             COMMAND: 'bash ./deploy.sh'
-      - pipe: atlassian/slack-notify:2.0.0    
+      - pipe: atlassian/slack-notify:2.0.0
         variables:
           WEBHOOK_URL: 'https://hooks.slack.com/services/yyyy/xxxx/zzzz'
           MESSAGE: 'A random message'
@@ -236,3 +236,21 @@ npm run seed
 echo '## deploy.sh: Reloading the nodes'
 pm2 reload all
 ```
+
+## GitLab
+
+Since I like to keep money in my pocket, the first step is to register a runner. I will need all the information for connecting the runner, go in your repository, click on the `Settings` at the bottom and expand the menu `Runner`:
+
+![./documentation/20.png](./documentation/20.png)
+
+You will need the information for completing the following command.
+
+```bash
+$ sudo gitlab-runner register
+```
+
+![./documentation/18.png](./documentation/18.png)
+
+If everything went well, you should see you runner below. Dont forget to desactivate the `Shared Runner`.
+
+![./documentation/19.png](./documentation/19.png)
