@@ -254,3 +254,10 @@ $ sudo gitlab-runner register
 If everything went well, you should see you runner below. Dont forget to desactivate the `Shared Runner`.
 
 ![./documentation/19.png](./documentation/19.png)
+
+#### Experiences
+
+- link between pipeline
+- Collapse of message
+- inheritance of pipeline
+- manual pipeline
