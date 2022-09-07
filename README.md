@@ -261,3 +261,4 @@ If everything went well, you should see you runner below. Dont forget to desacti
 - Collapse of message
 - inheritance of pipeline
 - manual pipeline
+- rules
