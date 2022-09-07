@@ -255,6 +255,8 @@ If everything went well, you should see you runner below. Dont forget to desacti
 
 ![./documentation/19.png](./documentation/19.png)
 
+Bash Color: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
 #### Experiences
 
 - link between pipeline
@@ -262,3 +264,12 @@ If everything went well, you should see you runner below. Dont forget to desacti
 - inheritance of pipeline
 - manual pipeline
 - rules
+
+
+#### Secrets
+
+![./documentation/21.png](./documentation/21.png)
+
+![./documentation/22.png](./documentation/22.png)
+
+![./documentation/23.png](./documentation/23.png)
