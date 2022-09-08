@@ -1,0 +1,13 @@
+stages:
+  - build
+  - test
+  - deploy
+
+include:
+  - project: "justal.kevin/devops"
+    file: "/templates/rules.yml"
+    ref: "master"
+
+build:
+  variables:
+    appName: laboratory-external-2

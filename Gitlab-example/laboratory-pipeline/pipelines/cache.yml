@@ -1,0 +1,15 @@
+stages:
+  - job
+
+image: node:16
+
+job1:
+  stage: job
+  cache:
+    key: binaries-cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - ./project/node_modules
+  script:
+    - cd project
+    - npm install
+    - echo "Install"

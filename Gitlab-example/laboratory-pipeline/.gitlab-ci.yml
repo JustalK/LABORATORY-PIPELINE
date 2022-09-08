@@ -1,0 +1,69 @@
+stages:
+  - triggers
+
+.test_external:
+  stage: triggers
+  trigger:
+    include: pipelines/external.yml
+
+test_ci:
+  stage: triggers
+  trigger:
+    include: pipelines/ci.yml
+
+.test_variables:
+  stage: triggers
+  trigger:
+    include: pipelines/cache.yml
+
+.test_variables:
+  stage: triggers
+  trigger:
+    include: pipelines/variables.yml
+
+.test_logs:
+  stage: triggers
+  trigger:
+    include: pipelines/logs.yml
+
+.test_matrix:
+  stage: triggers
+  trigger:
+    include: pipelines/matrix.yml
+
+.test_manual:
+  stage: triggers
+  trigger:
+    include: pipelines/manual.yml
+
+.test_rules:
+  stage: triggers
+  trigger:
+    include: pipelines/rules.yml
+
+.collapse_message:
+  stage: triggers
+  trigger:
+    include: pipelines/collapse.yml
+
+.inheritance:
+  stage: triggers
+  trigger:
+    include: pipelines/inheritence.yml
+
+# Cuttin pipeline into files
+.trigger_a:
+  stage: triggers
+  trigger:
+    include: pipelines/a.yml
+  rules:
+    - changes:
+        - a/*
+
+.trigger_b:
+  stage: triggers
+  trigger:
+    include: pipelines/a.yml
+  rules:
+    - changes:
+        - b/*

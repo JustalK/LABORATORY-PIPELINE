@@ -1,0 +1,25 @@
+stages:
+  - job
+
+image: alpine
+
+job1:
+  stage: job
+  script:
+    - echo "This job1 something else."
+
+job2:
+  stage: job
+  rules:
+    - when: manual
+      allow_failure: false
+  script:
+    - echo "This job2 something else."
+
+job3:
+  stage: job
+  rules:
+    - when: manual
+      allow_failure: true
+  script:
+    - echo "This job3 something else."

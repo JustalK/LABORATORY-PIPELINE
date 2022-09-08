@@ -1,0 +1,11 @@
+stages:
+  - test
+
+image: alpine
+
+test_message:
+  stage: test
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:my_first_section\r\e[0KHeader of the 1st collapsible section"
+    - echo 'this line should be hidden when collapsed'
+    - echo -e "\e[0Ksection_end:`date +%s`:my_first_section\r\e[0K"

@@ -1,0 +1,64 @@
+stages:
+  - build
+  - check
+  - deploy
+
+image: node:16
+
+build:
+  stage: build
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+    expire_in: 1 week
+  script:
+    - cd project
+    - npm install
+    - npx nx build
+  after_script:
+    - echo "Building DONE"
+
+check 1/2:
+  stage: check
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+  script:
+    - cd project
+    - npx nx lint
+  after_script:
+    - echo "Check Linter DONE"
+
+
+check 2/2:
+  stage: check
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+  script:
+    - cd project
+    - npx nx test
+  after_script:
+    - echo "Check Test DONE"
+
+deploy:
+  stage: deploy
+  rules:
+    - when: manual
+      allow_failure: true
+  script:
+    - echo "Step to do for deploying"
+  after_script:
+    - echo "Deployement DONE"

@@ -1,0 +1,12 @@
+stages:
+  - job
+
+image: alpine
+
+job1:
+  stage: job
+  script:
+    - |
+      echo -e "\e[31mTest1\e[0m"
+      echo -e "\e[32mTest2\e[0m"
+      echo -e "\e[33mTest3\e[0m"

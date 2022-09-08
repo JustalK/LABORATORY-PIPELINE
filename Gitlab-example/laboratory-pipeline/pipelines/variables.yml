@@ -1,0 +1,27 @@
+stages:
+  - job
+
+image: alpine
+
+job1:
+  stage: job
+  script:
+    - echo "TEST"
+    - echo "TEST $CI_VARIABLE"
+    - echo "TEST $CI_SECRET_VARIABLE"
+
+# All env variable
+job2:
+  stage: job
+  script:
+    - export
+    - echo "$GITLAB_USER_EMAIL"
+
+job3:
+  stage: job
+  variables:
+    CI_DEBUG_TRACE: "true"
+  script:
+  - echo "TEST"
+  - echo "TEST $CI_VARIABLE"
+  - echo "TEST $CI_SECRET_VARIABLE"

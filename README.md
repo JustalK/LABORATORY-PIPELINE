@@ -51,7 +51,7 @@ However for defining secret be environment, we can only define the secret from i
 
 I have created a **React** project using **NX**. I created an action testing the builds and tests on two different jobs using a matrix around the os. I have put a rule on concurrency for blocking multiple action to run if I keep pushing. I am using npx because you cannot access directly the command nx. I added the workflow_dispatch for manually running the pipeline when I want.
 
-```
+```yml
 name: CI
 
 on:
@@ -163,7 +163,7 @@ The artifacts can be download in the tab `artifact` present in the pipeline.
 
 A simple CI would be as followed. In the first step, I will install the dependencies and build the app. The compiled project will be put in an artifact while the dependencies put in the cache for the next pipelines. The second step will validate the project. In my case, I only have unit test and the linter. I did that in parallel since one job does not block the other one. Last step will be for the deployement (see next point).
 
-```
+```yml
   branches:
     master:
       - step:
@@ -210,7 +210,7 @@ A simple CI would be as followed. In the first step, I will install the dependen
 
 If we want to deploy the website at the end of the pipeline, we need to use the following step. You also certainly need to define multiple secret depending of the environment you want to deploy on.
 
-```
+```yml
 - step:
       name: Deploy to XXX
       deployment: XXX
@@ -273,3 +273,105 @@ Bash Color: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 ![./documentation/22.png](./documentation/22.png)
 
 ![./documentation/23.png](./documentation/23.png)
+
+#### Caches
+
+The cache is located:
+Locally, under Docker volumes: /var/lib/docker/volumes/<volume-id>/_data/<user>/<project>/<cache-key>/cache.zip.
+
+![./documentation/24.png](./documentation/24.png)
+
+![./documentation/25.png](./documentation/25.png)
+
+You can clear cache using the button in the pipeline page:
+
+![./documentation/26.png](./documentation/26.png)
+
+#### Continuous Integration
+
+On gitlab, we can make reference between projects. So I will create a simple `.gitlab-ci.yml` that will include a template from another project exclusively used by the DevOps for the pipelines.
+
+```yml
+stages:
+  - build
+  - test
+  - deploy
+
+include:
+  - project: "justal.kevin/devops"
+    file: "/templates/rules.yml"
+    ref: "master"
+
+build:
+  variables:
+    appName: laboratory-gitlab
+```
+
+And in the DevOps project, I will create the pipeline for continuous integration:
+
+```yml
+stages:
+  - build
+  - check
+  - deploy
+
+image: node:16
+
+build:
+  stage: build
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+    expire_in: 1 week
+  script:
+    - cd project
+    - npm install
+    - npx nx build
+  after_script:
+    - echo "Building DONE"
+
+check 1/2:
+  stage: check
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+  script:
+    - cd project
+    - npx nx lint
+  after_script:
+    - echo "Check Linter DONE"
+
+
+check 2/2:
+  stage: check
+  cache:
+    key: build-cache
+    paths:
+      - ./project/node_modules
+  artifacts:
+    paths:
+      - ./project/dist
+  script:
+    - cd project
+    - npx nx test
+  after_script:
+    - echo "Check Test DONE"
+
+deploy:
+  stage: deploy
+  rules:
+    - when: manual
+      allow_failure: true
+  script:
+    - echo "Step to do for deploying"
+  after_script:
+    - echo "Deployement DONE"
+```

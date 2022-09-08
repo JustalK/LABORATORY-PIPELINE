@@ -1,0 +1,16 @@
+image: node:16
+
+build:
+  stage: build
+  script:
+    - echo "This job builds something else. $appName"
+
+test:
+  stage: test
+  script:
+    - echo "This job tests something else. $appName"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "This job deploys something else. $appName"

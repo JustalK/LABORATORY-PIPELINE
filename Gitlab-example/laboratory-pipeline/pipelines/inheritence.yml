@@ -1,0 +1,40 @@
+default:
+  before_script:
+    - echo Hello World
+
+variables:
+  DOMAIN: example.com
+  WEBHOOK_URL: https://my-webhook.example.com
+
+stages:
+  - build
+  - test
+  - deploy
+
+image: alpine
+
+build_b:
+  inherit:
+    default: true
+    variables: false
+  stage: build
+  script:
+    - echo "This job builds something else."
+
+test_b:
+  inherit:
+    default: false
+    variables: [DOMAIN]
+  stage: test
+  needs: [build_b]
+  script:
+    - echo "This job tests something else -> ${DOMAIN}"
+
+deploy_b:
+  inherit:
+    default: false
+    variables: true
+  stage: deploy
+  needs: [test_b]
+  script:
+    - echo "This job deploys something else -> ${DOMAIN} -> ${WEBHOOK_URL}"
