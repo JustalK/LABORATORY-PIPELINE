@@ -1,7 +1,17 @@
 # LABORATORY-PIPELINE
 
+This laboratory is where I tested how to properly use the pipeline from **GitHub**, **Bitbucket** and **GitLab**. I hav read all the documentation of each of them and tested how to use the different features present. I try created a pipeline that I can use professionally for each of the version control. I have also created small example for each feature and explain deeply how to setup the more important part with screenshots.
+
+
 Warning: The case of the name of the branches are important for any pipelines
 
+## Plan of the presentation
+
+I explain with all the details how I build the project and my way of working.
+
+1. [GitHub](#github)
+2. [Bitbucket](#bitbucket)
+3. [GitLab](#gitlab)
 ## GitHub
 
 #### Experiences
@@ -255,41 +265,63 @@ If everything went well, you should see you runner below. Dont forget to desacti
 
 ![./documentation/19.png](./documentation/19.png)
 
-Bash Color: https://misc.flogisoft.com/bash/tip_colors_and_formatting
-
 #### Experiences
+
+I have created multiple yaml where I have been testing the following experiences.
 
 - link between pipeline
 - Collapse of message
 - inheritance of pipeline
 - manual pipeline
 - rules
+- external file
+- parallele
+- matrix
 
+in the log of the pipeline, you can use color using the bash color system.
+Bash Color: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
 #### Secrets
 
+The secret of the pipeline can be setup in the variable section located in `Settings` -> CI/CD -> Variables
+
 ![./documentation/21.png](./documentation/21.png)
 
+When you add a variable, a popup open where you can select the environment if needed and if the variable can be read in the pipeline or not.
+
 ![./documentation/22.png](./documentation/22.png)
+
+The result will be as follow once two variables has been added.
 
 ![./documentation/23.png](./documentation/23.png)
 
 #### Caches
 
-The cache is located:
-Locally, under Docker volumes: /var/lib/docker/volumes/<volume-id>/_data/<user>/<project>/<cache-key>/cache.zip.
+As I can see under, the cache has been created at the end of the job.
 
 ![./documentation/24.png](./documentation/24.png)
 
+The cache is located locally, under Docker volumes: /var/lib/docker/volumes/<volume-id>/_data/<user>/<project>/<cache-key>/cache.zip.
+I can see the volume name in the pipeline and when I check in the location on my computer, I can found my cache.
+
 ![./documentation/25.png](./documentation/25.png)
 
-You can clear cache using the button in the pipeline page:
+You can clear cache using the button in the pipeline page.
 
 ![./documentation/26.png](./documentation/26.png)
+
+#### Settings
+
+Since pipeline are paid by the minutes of usage, it's important to check the options: Auto-cancel redundant pipeline
+It stop the pipelines to be queue when we push before another pipeline has been finished.
+
+![./documentation/27.png](./documentation/27.png)
 
 #### Continuous Integration
 
 On gitlab, we can make reference between projects. So I will create a simple `.gitlab-ci.yml` that will include a template from another project exclusively used by the DevOps for the pipelines.
+
+![./documentation/graph.png](./documentation/graph.png)
 
 ```yml
 stages:
